@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react"; // Add useContext here
 import {
   View,
   Text,
@@ -7,13 +7,37 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation
+import BottomNav from "../components/BottomNav";
+import { DarkModeContext } from "../context/DarkModeContext";
 
 const ProfileScreen = () => {
+  const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
+  const navigation = useNavigation(); // Initialize navigation
+
+  const handleLogout = () => {
+    navigation.navigate("Login");
+  };
+
+  // Dynamic styles based on Dark Mode
+  const dynamicStyles = {
+    container: {
+      flex: 1,
+      backgroundColor: isDarkMode ? "#121212" : "#fff",
+    },
+    text: {
+      color: isDarkMode ? "#fff" : "#111418",
+    },
+    section: {
+      backgroundColor: isDarkMode ? "#1E1E1E" : "#f0f2f4",
+    },
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, dynamicStyles.container]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Profile</Text>
+        <Text style={[styles.headerTitle, dynamicStyles.text]}>Profile</Text>
         <TouchableOpacity style={styles.settingsButton}>
           <Image
             source={require("../assets/setting.png")}
@@ -29,9 +53,15 @@ const ProfileScreen = () => {
             source={require("../assets/user.png")}
             style={styles.profileImage}
           />
-          <Text style={styles.profileName}>Kaitlyn000, 23</Text>
-          <Text style={styles.profileInfo}>Joined in 2021</Text>
-          <Text style={styles.profileInfo}>San Francisco, CA</Text>
+          <Text style={[styles.profileName, dynamicStyles.text]}>
+            Kaitlyn000, 23
+          </Text>
+          <Text style={[styles.profileInfo, dynamicStyles.text]}>
+            Joined in 2021
+          </Text>
+          <Text style={[styles.profileInfo, dynamicStyles.text]}>
+            San Francisco, CA
+          </Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.editButton}>
               <Text style={styles.buttonText}>Edit Profile</Text>
@@ -43,108 +73,112 @@ const ProfileScreen = () => {
         </View>
 
         {/* Fitness Goals */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Fitness Goals</Text>
+        <View style={[styles.section, dynamicStyles.section]}>
+          <Text style={[styles.sectionTitle, dynamicStyles.text]}>
+            Fitness Goals
+          </Text>
           <View style={styles.goalItem}>
-            <Text style={styles.goalText}>Meditation</Text>
-            <Text style={styles.goalDays}>5 days left</Text>
+            <Text style={[styles.goalText, dynamicStyles.text]}>
+              Meditation
+            </Text>
+            <Text style={[styles.goalDays, dynamicStyles.text]}>
+              5 days left
+            </Text>
           </View>
           <View style={styles.goalItem}>
-            <Text style={styles.goalText}>Sleep</Text>
-            <Text style={styles.goalDays}>4 days left</Text>
+            <Text style={[styles.goalText, dynamicStyles.text]}>Sleep</Text>
+            <Text style={[styles.goalDays, dynamicStyles.text]}>
+              4 days left
+            </Text>
           </View>
           <View style={styles.goalItem}>
-            <Text style={styles.goalText}>Strength</Text>
-            <Text style={styles.goalDays}>4 days left</Text>
+            <Text style={[styles.goalText, dynamicStyles.text]}>Strength</Text>
+            <Text style={[styles.goalDays, dynamicStyles.text]}>
+              4 days left
+            </Text>
           </View>
         </View>
 
         {/* Progress Stats */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Progress Stats</Text>
+        <View style={[styles.section, dynamicStyles.section]}>
+          <Text style={[styles.sectionTitle, dynamicStyles.text]}>
+            Progress Stats
+          </Text>
           <View style={styles.statItem}>
-            <Text style={styles.statText}>Total Workouts</Text>
-            <Text style={styles.statValue}>120</Text>
+            <Text style={[styles.statText, dynamicStyles.text]}>
+              Total Workouts
+            </Text>
+            <Text style={[styles.statValue, dynamicStyles.text]}>120</Text>
           </View>
           <View style={styles.statItem}>
-            <Text style={styles.statText}>Total Minutes</Text>
-            <Text style={styles.statValue}>600</Text>
+            <Text style={[styles.statText, dynamicStyles.text]}>
+              Total Minutes
+            </Text>
+            <Text style={[styles.statValue, dynamicStyles.text]}>600</Text>
           </View>
           <View style={styles.statItem}>
-            <Text style={styles.statText}>Total Days Active</Text>
-            <Text style={styles.statValue}>30</Text>
+            <Text style={[styles.statText, dynamicStyles.text]}>
+              Total Days Active
+            </Text>
+            <Text style={[styles.statValue, dynamicStyles.text]}>30</Text>
           </View>
         </View>
 
         {/* Preferences */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Preferences</Text>
-          <View style={styles.preferenceItem}>
-            <Text style={styles.preferenceText}>Dark Mode</Text>
-            <Text style={styles.preferenceSubtext}>
-              Use dark mode for a better experience
+        <View style={[styles.section, dynamicStyles.section]}>
+          <Text style={[styles.sectionTitle, dynamicStyles.text]}>
+            Preferences
+          </Text>
+          <TouchableOpacity
+            style={[styles.preferenceItem, dynamicStyles.section]}
+            onPress={toggleDarkMode} // Toggle Dark Mode
+          >
+            <Text style={[styles.preferenceText, dynamicStyles.text]}>
+              Dark Mode
             </Text>
-            <TouchableOpacity style={styles.toggleButton}>
-              <View style={styles.toggleCircle} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.preferenceItem}>
-            <Text style={styles.preferenceText}>Notifications</Text>
-            <Text style={styles.preferenceSubtext}>
+            <Text style={[styles.preferenceSubtext, dynamicStyles.text]}>
+              {isDarkMode ? "Disable Dark Mode" : "Enable Dark Mode"}
+            </Text>
+          </TouchableOpacity>
+          <View style={[styles.preferenceItem, dynamicStyles.section]}>
+            <Text style={[styles.preferenceText, dynamicStyles.text]}>
+              Notifications
+            </Text>
+            <Text style={[styles.preferenceSubtext, dynamicStyles.text]}>
               Allow Welltune to send you notifications
             </Text>
-            <TouchableOpacity style={styles.toggleButton}>
-              <View style={styles.toggleCircle} />
+            <TouchableOpacity style={[styles.toggleButton, dynamicStyles.text]}>
+              <View style={[styles.toggleCircle, dynamicStyles.text]} />
             </TouchableOpacity>
           </View>
-          <View style={styles.preferenceItem}>
-            <Text style={styles.preferenceText}>Goals</Text>
-            <Text style={styles.preferenceSubtext}>
+          <View style={[styles.preferenceItem, dynamicStyles.section]}>
+            <Text style={[styles.preferenceText, dynamicStyles.text]}>
+              Goals
+            </Text>
+            <Text style={[styles.preferenceSubtext, dynamicStyles.text]}>
               Set and manage your fitness goals
             </Text>
-            <TouchableOpacity style={styles.setGoalButton}>
-              <Text style={styles.setGoalText}>Set Goal</Text>
+            <TouchableOpacity
+              style={[styles.setGoalButton, dynamicStyles.text]}
+            >
+              <Text style={[styles.setGoalText, dynamicStyles.text]}>
+                Set Goal
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Sign Out Button */}
-        <TouchableOpacity style={styles.signOutButton}>
-          <Text style={styles.signOutText}>Sign Out</Text>
+        <TouchableOpacity
+          style={[styles.signOutButton, dynamicStyles.section]}
+          onPress={handleLogout}
+        >
+          <Text style={[styles.signOutText, dynamicStyles.text]}>Sign Out</Text>
         </TouchableOpacity>
       </ScrollView>
 
       {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Image
-            source={require("../assets/home.png")}
-            style={styles.navIcon}
-          />
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Image
-            source={require("../assets/search.png")}
-            style={styles.navIcon}
-          />
-          <Text style={styles.navText}>Explore</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Image
-            source={require("../assets/friends.png")}
-            style={styles.navIcon}
-          />
-          <Text style={styles.navText}>Friends</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Image
-            source={require("../assets/user.png")}
-            style={styles.navIcon}
-          />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav />
     </View>
   );
 };
@@ -152,20 +186,16 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f2f4",
   },
   headerTitle: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#111418",
   },
   settingsButton: {
     padding: 8,
@@ -187,11 +217,9 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#111418",
   },
   profileInfo: {
     fontSize: 16,
-    color: "#637488",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -218,15 +246,15 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#111418",
   },
   section: {
     padding: 16,
+    marginVertical: 8,
+    borderRadius: 10,
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "bold",
-    color: "#111418",
     marginBottom: 16,
   },
   goalItem: {
@@ -234,48 +262,36 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f2f4",
   },
   goalText: {
     fontSize: 16,
-    color: "#111418",
   },
   goalDays: {
     fontSize: 16,
-    color: "#111418",
   },
   statItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f2f4",
   },
   statText: {
     fontSize: 16,
-    color: "#111418",
   },
   statValue: {
     fontSize: 16,
-    color: "#111418",
   },
   preferenceItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f2f4",
+    padding: 16,
+    marginVertical: 8,
+    borderRadius: 10,
   },
   preferenceText: {
     fontSize: 16,
-    color: "#111418",
+    fontWeight: "bold",
   },
   preferenceSubtext: {
     fontSize: 14,
-    color: "#637488",
   },
   toggleButton: {
     width: 51,
@@ -299,10 +315,8 @@ const styles = StyleSheet.create({
   setGoalText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#111418",
   },
   signOutButton: {
-    backgroundColor: "#f0f2f4",
     padding: 16,
     borderRadius: 20,
     alignItems: "center",
@@ -311,25 +325,6 @@ const styles = StyleSheet.create({
   signOutText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#111418",
-  },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 8,
-    borderTopWidth: 1,
-    borderTopColor: "#f0f2f4",
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  navIcon: {
-    width: 24,
-    height: 24,
-  },
-  navText: {
-    fontSize: 12,
-    color: "#637488",
   },
 });
 

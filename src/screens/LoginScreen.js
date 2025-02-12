@@ -26,7 +26,7 @@ const LoginScreen = ({ navigation }) => {
       console.log("Login successful:", response.data);
 
       // Navigate to Welcome page after successful login
-      navigation.navigate("Profile");
+      navigation.navigate("Dashboard");
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
     }
