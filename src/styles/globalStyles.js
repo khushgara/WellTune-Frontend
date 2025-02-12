@@ -7,6 +7,10 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     backgroundColor: "#fff",
+    overflow: auto,
+  },
+  body: {
+    overflow: auto || scroll,
   },
   title: {
     fontSize: 24,

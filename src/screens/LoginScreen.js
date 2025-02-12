@@ -6,16 +6,31 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import axios from "axios";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
-  const handleLogin = () => {
-    console.log("Email:", email, "Password:", password);
-  };
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
+      console.log("Login successful:", response.data);
+
+      // Navigate to Welcome page after successful login
+      navigation.navigate("Profile");
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+    }
+  };
   const toggleShowPassword = () => {
     setShowPassword(!showPassword); // Toggle password visibility
   };
@@ -54,7 +69,7 @@ const LoginScreen = () => {
       <TouchableOpacity>
         <Text style={styles.linkText}>Forgot password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
         <Text style={styles.linkText}>New User? Sign Up</Text>
       </TouchableOpacity>
     </View>
